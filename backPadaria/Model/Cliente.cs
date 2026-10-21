@@ -38,6 +38,13 @@ namespace backPadaria.Model
             this.Pontos = pontos;
         }
 
+        //Gambiarra para testar
+
+        public Cliente(int id)
+        {
+            this.Id = id;
+        }
+
         public int Id { get => id; set => id = value; }
         public string Nome { get => nome; set => nome = value; }
         public string Cpf { get => cpf; set => cpf = value; }
@@ -84,8 +91,143 @@ namespace backPadaria.Model
 
 
 
+        public static int Deletar(Cliente cliente)
+        {
+            string sql = "DELETE FROM `Cliente` WHERE `ID` = @id";
+
+            using (var cmd = new MySqlCommand(sql))
+            {
+                cmd.Parameters.AddWithValue("@id", cliente.id);
+
+                return Banco.executarComando(cmd);
+
+
+            }
 
 
 
+        }
+
+
+
+        public static List<Cliente> ListarTodos()
+        {
+            string sql = "SELECT * FROM `Cliente`";
+
+            List<Cliente> listaClientes = new List<Cliente>();
+
+            using (var cmd = new MySqlCommand(sql))
+            {
+
+                // Executa a leitura. 0 bloco 'using' aqui é FUNDAMENTAL para garantir que o
+                // reader seja fechado no final, o que por sua vez fecha a conexão com o banco.
+                using (MySqlDataReader reader = Banco.executarComRetornoDeDados(cmd))
+                {
+
+                    // O while vai rodar uma vez para CADA linha que existir na tabela Cliente
+                    while (reader.Read())
+                    {
+                        
+                        int id = reader.GetInt32("Id");
+                        string nome = validarCampo(reader["Nome"]);
+                        string cpf = validarCampo(reader["CPF"]);
+                        string endereco = validarCampo(reader["Endereco"]);
+                        string telefone = validarCampo(reader["Telefone"]);
+                        int pontos = reader.GetInt32("Pontos");
+
+
+
+
+                        // Cria o objeto Cliente com os dados extraídos
+                        Cliente cliente = new Cliente(id, nome, cpf, telefone, endereco, pontos);
+
+
+                        // Adiciona este cliente à nossa lista
+                        listaClientes.Add(cliente);
+                    }
+
+                }
+                // Retorna a lista completa (se a tabela estiver vazia, retorna uma lista com 0 itens)
+                return listaClientes;
+
+            }
+        }
+
+
+        public static Cliente? listarPorId(int id)
+        {
+            string sql = "SELECT * FROM `Cliente` WHERE `id` = @Id";
+
+            using (var cmd = new MySqlCommand(sql))
+            {
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                MySqlDataReader reader = Banco.executarComRetornoDeDados(cmd);
+
+                Cliente? cliente = null;
+
+                while (reader.Read())
+                {
+
+                    int idBanco = reader.GetInt32("Id");
+                    string nome = validarCampo(reader["Nome"]);
+                    string cpf = validarCampo(reader["CPF"]);
+                    string endereco = validarCampo(reader["Endereco"]);
+                    string telefone = validarCampo(reader["Telefone"]);
+                    int pontos = reader.GetInt32("Pontos");
+
+                    // Cria o objeto Cliente com os dados extraídos
+                    cliente = new Cliente(idBanco, nome, cpf, endereco, telefone, pontos);
+
+
+                }
+
+                return cliente;
+
+            }
+
+        }
+
+
+        
+        public static int Atualizar(Cliente cliente)
+        {
+            string sql = "UPDATE `Cliente` SET `Nome` = @Nome,  `Cpf` = @CPF, `Telefone` = @Telefone, `Endereco` = @Endereco, `Pontos` = @Pontos WHERE `Id` = @Id";
+             using (var cmd = new MySqlCommand(sql))
+            {
+                cmd.Parameters.AddWithValue("@Nome", cliente.Nome);
+                cmd.Parameters.AddWithValue("@CPF", cliente.Cpf);
+                cmd.Parameters.AddWithValue("@Telefone", cliente.Telefone);
+                cmd.Parameters.AddWithValue("@Endereco", cliente.Endereco);
+                cmd.Parameters.AddWithValue("@Pontos", cliente.Pontos);
+
+                // A chave de busca: Quem será atualizado?
+                cmd.Parameters.AddWithValue("@Id", cliente.id);
+
+                // Execução: O UPDATE também é uma instrução de ação (como INSERT e DELETE).
+                // Ele vai retornar 1 (se encontrou o ID e atualizou com sucesso) ou 0 (se o ID nao existia).
+                return Banco.executarComando(cmd);
+
+            }
+
+        }
+
+
+
+
+        private static string validarCampo(object campo)
+        {
+            if(campo == DBNull.Value ||campo == null)
+            {
+                return "";
+            }
+            else
+            {
+                return campo.ToString();
+            }
+
+        }
+
+        
     }
 }
