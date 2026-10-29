@@ -155,11 +155,11 @@ namespace backPadaria
 
             //    Console.WriteLine("=========================");
 
-            //    //}
-            //    //else
-            //    //{
-            //    //    Console.WriteLine("O cliente não foi encontrado!");
-            //    //}
+            //}
+            //else
+            //{
+            //    Console.WriteLine("O cliente não foi encontrado!");
+            //}
 
 
 
@@ -201,16 +201,79 @@ namespace backPadaria
 
 
 
-
-            FuncionarioService.listarMenuFuncionario();
-
-
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //FuncionarioService.listarMenuFuncionario();
 
 
 
 
 
-            }
-      }
+
+
+
+            // Marca MÉTODO LISTAR POR ID ?????????????????????????
+            //Marca? marca = Marca.listarPorId(1);
+
+            //if (marca != null)
+            //{
+            //    Console.WriteLine("=========================");
+
+            //    Console.WriteLine($"ID: {marca.Id1}");
+            //    Console.WriteLine($"Nome: {marca.Nome1}");
+            //    Console.WriteLine($"CPF: {marca.Telefone1}");
+
+            //    Console.WriteLine("=========================");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("O cliente não foi encontrado!");
+            //}
+
+
+
+
+
+
+            // Marca MÉTODO ATUALIZAR !!!!!!!!!!!!!!!!!!!!!!!!!
+            //Marca? minhaMarca = Marca.listarPorId(4);
+
+            //if (minhaMarca != null)
+            //{
+            //    Console.WriteLine(minhaMarca.Nome1);
+
+            //    minhaMarca.Nome1 = "Café & CIA";
+            //    minhaMarca.Telefone1 = "1199999-1010";
+
+
+            //    int resultado = Marca.Atualizar(minhaMarca);
+            //    if (resultado > 0)
+            //    {
+            //        Console.WriteLine("Marca atualizada com sucesso!");
+            //    }
+            //}
+
+
+
+
+
+
+            //MarcaService.MenuMarca();
+
+            //ClienteService.MenuCliente();
+
+            //VendaService.MenuVendas();
+
+
+            //LoginFuncionario login = new LoginFuncionario(2, "jp_padoca@padariapaoecia.com.br", "12345678", "Diretor");
+
+            //LoginFuncionario.Inserir(login);
+
+            //LoginService.FazerLoginMenu();
+
+            VendaService.MenuVendas();
+
+
+        }
     }
+}
 

@@ -70,6 +70,10 @@ namespace backPadaria.Model
             }
         }
 
+
+
+
+
         public static int Deletar(Funcionario funcionario)
         {
             string sql = "DELETE FROM `Funcionario` WHERE `ID` = @id";
